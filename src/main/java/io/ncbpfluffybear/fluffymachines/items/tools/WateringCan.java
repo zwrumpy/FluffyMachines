@@ -142,7 +142,7 @@ public class WateringCan extends SimpleSlimefunItem<ItemUseHandler> {
                             }
 
                         } else {
-                            Utils.send(p, "&cThis crop is already ready for harvest!");
+                            //Utils.send(p, "&cThis crop is already ready for harvest!");
                             return;
                         }
 
@@ -190,7 +190,7 @@ public class WateringCan extends SimpleSlimefunItem<ItemUseHandler> {
         if (updateType == 1) {
 
             if (usesLeft == 0) {
-                Utils.send(p, "&cYou need to refill your Watering Can!");
+                //Utils.send(p, "&cYou need to refill your Watering Can!");
                 return false;
             }
             p.playSound(p.getLocation(), Sound.ENTITY_DROWNED_AMBIENT_WATER, 0.5F, 1F);
@@ -198,18 +198,18 @@ public class WateringCan extends SimpleSlimefunItem<ItemUseHandler> {
 
         } else if (updateType == 2) {
             p.playSound(p.getLocation(), Sound.ENTITY_DROWNED_DEATH_WATER, 0.5F, 1F);
-            Utils.send(p, "&aYou have filled your Watering Can");
+            //Utils.send(p, "&aYou have filled your Watering Can");
             usesLeft = maxUses.getValue();
 
         } else if (updateType == 3) {
             if (usesLeft == 0) {
-                Utils.send(p, "&cYou need to refill your Watering Can!");
+                //Utils.send(p, "&cYou need to refill your Watering Can!");
                 return false;
             }
             usesLeft = 0;
             p.playSound(p.getLocation(), Sound.ITEM_BUCKET_EMPTY, 0.5F, 1F);
         } else {
-            p.sendMessage("Error");
+            //p.sendMessage("Error");
         }
 
         /*
@@ -222,7 +222,7 @@ public class WateringCan extends SimpleSlimefunItem<ItemUseHandler> {
         meta.setLore(lore);
         meta.getPersistentDataContainer().set(usageKey, PersistentDataType.INTEGER, usesLeft);
         item.setItemMeta(meta);
-        Utils.send(p, "&eYou have " + usesLeft + " uses left");
+        //Utils.send(p, "&eYou have " + usesLeft + " uses left");
 
         return true;
     }
