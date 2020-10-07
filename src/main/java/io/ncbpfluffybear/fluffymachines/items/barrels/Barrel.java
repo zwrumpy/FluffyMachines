@@ -1,4 +1,4 @@
-package io.ncbpfluffybear.fluffymachines.items;
+package io.ncbpfluffybear.fluffymachines.items.barrels;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
@@ -274,7 +274,7 @@ public class Barrel extends SlimefunItem {
     }
 
     private boolean matchMeta(ItemStack item1, ItemStack item2) {
-        return item1.getItemMeta().equals(item2.getItemMeta()) && item1.getType().equals(item2.getType());
+        return item1.getType().equals(item2.getType()) && item1.getItemMeta().equals(item2.getItemMeta());
     }
 
     private void updateMenu(Block b, BlockMenu inv) {

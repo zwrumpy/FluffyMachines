@@ -1,7 +1,7 @@
 package io.ncbpfluffybear.fluffymachines.utils;
 
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
-import io.ncbpfluffybear.fluffymachines.items.Barrel;
+import io.ncbpfluffybear.fluffymachines.items.barrels.Barrel;
 import io.ncbpfluffybear.fluffymachines.items.FireproofRune;
 import io.ncbpfluffybear.fluffymachines.machines.AdvancedAutoDisenchanter;
 import io.ncbpfluffybear.fluffymachines.machines.AutoCrafter;
@@ -89,6 +89,16 @@ public class FluffyItems {
         "&7Stores a large amount of an item",
         "",
         "&bCapacity: &e" + Barrel.BOTTOMLESS_BARREL_SIZE + " Items"
+    );
+
+    public static final SlimefunItemStack BIOMETRIC_MODULE = new SlimefunItemStack("BIOMETRIC_MODULE",
+        Material.TRIPWIRE_HOOK,
+        "&cBiometric Module",
+        "",
+        "&7Locks a Fluffy Barrel so only",
+        "&7the module owner can open it",
+        "",
+        "UUID: None"
     );
 
     // Items
