@@ -1,10 +1,16 @@
 package io.ncbpfluffybear.fluffymachines.utils;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
+import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
+import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
-import io.ncbpfluffybear.fluffymachines.items.barrels.Barrel;
+import io.ncbpfluffybear.fluffymachines.items.Barrel;
 import io.ncbpfluffybear.fluffymachines.items.FireproofRune;
+import io.ncbpfluffybear.fluffymachines.items.tools.PortableCharger;
 import io.ncbpfluffybear.fluffymachines.machines.AdvancedAutoDisenchanter;
 import io.ncbpfluffybear.fluffymachines.machines.AutoCrafter;
+import io.ncbpfluffybear.fluffymachines.machines.ElectricDustFabricator;
+import io.ncbpfluffybear.fluffymachines.machines.ElectricDustRecycler;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.cscorelib2.item.CustomItem;
@@ -18,6 +24,9 @@ import io.ncbpfluffybear.fluffymachines.machines.WaterSprinkler;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
+
+import javax.sound.sampled.Port;
 
 
 public class FluffyItems {
@@ -34,6 +43,14 @@ public class FluffyItems {
     public static final Category fluffybarrels = new Category(new NamespacedKey(FluffyMachines.getInstance(),
         "fluffybarrels"),
         new CustomItem(Material.BARREL, "&6Fluffy Barrels")
+    );
+
+    public static final SlimefunItemStack FM_VERSION_INDICATOR = new SlimefunItemStack("FM_VERSION_INDICATOR",
+        Material.ORANGE_WOOL,
+        "&6&lFluffyMachines Info",
+        "",
+        "&e" + FluffyMachines.getInstance().getName() + " " + FluffyMachines.getInstance().getPluginVersion(),
+        "&7" + FluffyMachines.getInstance().getBugTrackerURL()
     );
 
     // Barrels
@@ -91,14 +108,55 @@ public class FluffyItems {
         "&bCapacity: &e" + Barrel.BOTTOMLESS_BARREL_SIZE + " Items"
     );
 
-    public static final SlimefunItemStack BIOMETRIC_MODULE = new SlimefunItemStack("BIOMETRIC_MODULE",
-        Material.TRIPWIRE_HOOK,
-        "&cBiometric Module",
+    // Portable Chargers
+    public static final SlimefunItemStack SMALL_PORTABLE_CHARGER = new SlimefunItemStack("SMALL_PORTABLE_CHARGER",
+        Material.BRICK,
+        "&eSmall Portable Charger",
         "",
-        "&7Locks a Fluffy Barrel so only",
-        "&7the module owner can open it",
+        "&7A handheld charger that holds a lot of power",
         "",
-        "UUID: None"
+        "&eCharge Speed: &7" + PortableCharger.Type.SMALL.chargeSpeed + " J/s",
+        LoreBuilder.powerCharged(0, PortableCharger.Type.SMALL.chargeCapacity)
+    );
+
+    public static final SlimefunItemStack MEDIUM_PORTABLE_CHARGER = new SlimefunItemStack("MEDIUM_PORTABLE_CHARGER",
+        Material.IRON_INGOT,
+        "&6Medium Portable Charger",
+        "",
+        "&7A handheld charger that holds a lot of power",
+        "",
+        "&eCharge Speed: &7" + PortableCharger.Type.MEDIUM.chargeSpeed + " J/s",
+        LoreBuilder.powerCharged(0, PortableCharger.Type.MEDIUM.chargeCapacity)
+    );
+
+    public static final SlimefunItemStack BIG_PORTABLE_CHARGER = new SlimefunItemStack("BIG_PORTABLE_CHARGER",
+        Material.GOLD_INGOT,
+        "&aBig Portable Charger",
+        "",
+        "&7A handheld charger that holds a lot of power",
+        "",
+        "&eCharge Speed: &7" + PortableCharger.Type.BIG.chargeSpeed + " J/s",
+        LoreBuilder.powerCharged(0, PortableCharger.Type.BIG.chargeCapacity)
+    );
+
+    public static final SlimefunItemStack LARGE_PORTABLE_CHARGER = new SlimefunItemStack("LARGE_PORTABLE_CHARGER",
+        Material.NETHER_BRICK,
+        "&2Large Portable Charger",
+        "",
+        "&7A handheld charger that holds a lot of power",
+        "",
+        "&eCharge Speed: &7" + PortableCharger.Type.LARGE.chargeSpeed + " J/s",
+        LoreBuilder.powerCharged(0, PortableCharger.Type.LARGE.chargeCapacity)
+    );
+
+    public static final SlimefunItemStack CARBONADO_PORTABLE_CHARGER = new SlimefunItemStack("CARBONADO_PORTABLE_CHARGER",
+        Material.NETHERITE_INGOT,
+        "&4Carbonado Portable Charger",
+        "",
+        "&7A handheld charger that holds a lot of power",
+        "",
+        "&eCharge Speed: &7" + PortableCharger.Type.CARBONADO.chargeSpeed + " J/s",
+        LoreBuilder.powerCharged(0, PortableCharger.Type.CARBONADO.chargeCapacity)
     );
 
     // Items
@@ -217,7 +275,7 @@ public class FluffyItems {
         "&7Empties the contents of backpacks",
         "",
         LoreBuilderDynamic.powerBuffer(BackpackUnloader.CAPACITY),
-        LoreBuilderDynamic.powerBuffer(BackpackUnloader.ENERGY_CONSUMPTION)
+        LoreBuilderDynamic.powerPerTick(BackpackUnloader.ENERGY_CONSUMPTION)
     );
     public static final SlimefunItemStack BACKPACK_LOADER = new SlimefunItemStack("BACKPACK_LOADER",
         Material.ORANGE_STAINED_GLASS,
@@ -226,7 +284,7 @@ public class FluffyItems {
         "&7Moves items from inventory to backpack",
         "",
         LoreBuilderDynamic.powerBuffer(BackpackLoader.CAPACITY),
-        LoreBuilderDynamic.powerBuffer(BackpackLoader.ENERGY_CONSUMPTION)
+        LoreBuilderDynamic.powerPerTick(BackpackLoader.ENERGY_CONSUMPTION)
     );
     public static final SlimefunItemStack UPGRADED_EXPLOSIVE_PICKAXE = new SlimefunItemStack(
         "UPGRADED_EXPLOSIVE_PICKAXE",
@@ -307,9 +365,56 @@ public class FluffyItems {
         "&7ID: <ID>"
     );
 
+    public static final SlimefunItemStack WARP_PAD = new SlimefunItemStack("WARP_PAD",
+        Material.SMOKER,
+        "&6Warp Pad",
+        "",
+        "&eCrouch &7on this block to teleport to",
+        "&7the linked destination pad",
+        "",
+        "&7Use a Warp Pad Configurator to link Warp Pads"
+    );
 
+    public static final SlimefunItemStack WARP_PAD_CONFIGURATOR = new SlimefunItemStack("WARP_PAD_CONFIGURATOR",
+        Material.BLAZE_ROD,
+        "&6Warp Pad Configurator",
+        "",
+        "&eSneak and Right Click &7on a Warp Pad to set the destination",
+        "&eRight Click &7on a Warp Pad to set the origin",
+        "",
+        "&eLinked Coordinates: &7None"
+    );
+
+    public static final SlimefunItemStack ELECTRIC_DUST_FABRICATOR = new SlimefunItemStack("ELECTRIC_DUST_FABRICATOR",
+        Material.BLAST_FURNACE,
+        "&6Electric Dust Fabricator",
+        "",
+        "&7An all-in-one machine that grinds, pans, and washes",
+        LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE),
+        LoreBuilder.speed(10),
+        LoreBuilderDynamic.powerBuffer(ElectricDustFabricator.CAPACITY),
+        LoreBuilderDynamic.powerPerTick(ElectricDustFabricator.ENERGY_CONSUMPTION)
+    );
+
+    public static final SlimefunItemStack ELECTRIC_DUST_RECYCLER = new SlimefunItemStack("ELECTRIC_DUST_RECYCLER",
+        Material.IRON_BLOCK,
+        "&fElectric Dust Recycler",
+        "",
+        "&7Recycles dust back into sifted ore",
+        LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE),
+        LoreBuilder.speed(1),
+        LoreBuilderDynamic.powerBuffer(ElectricDustRecycler.CAPACITY),
+        LoreBuilderDynamic.powerPerTick(ElectricDustRecycler.ENERGY_CONSUMPTION)
+    );
+
+    private static final Enchantment glowEnchant = Enchantment.getByKey(Constants.GLOW_ENCHANT);
 
     static {
         FireproofRune.setFireproof(FIREPROOF_RUNE);
+        SMALL_PORTABLE_CHARGER.addEnchantment(glowEnchant, 1);
+        MEDIUM_PORTABLE_CHARGER.addEnchantment(glowEnchant, 1);
+        BIG_PORTABLE_CHARGER.addEnchantment(glowEnchant, 1);
+        LARGE_PORTABLE_CHARGER.addEnchantment(glowEnchant, 1);
+        CARBONADO_PORTABLE_CHARGER.addEnchantment(glowEnchant, 1);
     }
 }

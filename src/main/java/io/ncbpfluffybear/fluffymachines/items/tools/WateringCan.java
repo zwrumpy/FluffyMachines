@@ -32,6 +32,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.RayTraceResult;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -59,6 +60,7 @@ public class WateringCan extends SimpleSlimefunItem<ItemUseHandler> {
         addItemSetting(treeSuccessChance);
     }
 
+    @Nonnull
     @Override
     public ItemUseHandler getItemHandler() {
         return e -> {
@@ -101,7 +103,7 @@ public class WateringCan extends SimpleSlimefunItem<ItemUseHandler> {
 
                             // Failsafe
                             if (distance >= MAX_SUGAR_GROW_HEIGHT) {
-                                Utils.send(p, "&cThis sugar cane is too tall!");
+                                //Utils.send(p, "&cThis sugar cane is too tall!");
                                 return;
                             }
 
@@ -121,7 +123,7 @@ public class WateringCan extends SimpleSlimefunItem<ItemUseHandler> {
                             }
 
                         } else {
-                            Utils.send(p, "&cThe sugar cane is obstructed!");
+                            //Utils.send(p, "&cThe sugar cane is obstructed!");
                         }
 
                         // Crops
