@@ -1,4 +1,4 @@
-package io.ncbpfluffybear.fluffymachines.items;
+package io.ncbpfluffybear.fluffymachines.items.barrels;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -50,6 +50,8 @@ public class Barrel extends SlimefunItem {
     public static final int LARGE_BARREL_SIZE = 138240; // 40 Double chests
     public static final int MASSIVE_BARREL_SIZE = 276480; // 80 Double chests
     public static final int BOTTOMLESS_BARREL_SIZE = 1728000; // 500 Double chests
+
+    private final int OVERFLOW_AMOUNT = 49920;
 
     private final int MAX_STORAGE;
 
@@ -135,25 +137,48 @@ public class Barrel extends SlimefunItem {
                     int stackSize = inv.getItemInSlot(DISPLAY_SLOT).getMaxStackSize();
                     ItemStack unKeyed = Utils.unKeyItem(inv.getItemInSlot(DISPLAY_SLOT));
 
-                    // Everything greater than 1 stack
-                    while (stored >= stackSize) {
+                    if (stored > OVERFLOW_AMOUNT) {
+                        Utils.send(p, "&eThere are more than " + OVERFLOW_AMOUNT + " items in this barrel! Dropping " + OVERFLOW_AMOUNT + " items instead!");
+                        int toRemove = OVERFLOW_AMOUNT;
+                        while (toRemove >= stackSize) {
 
-                        b.getWorld().dropItemNaturally(b.getLocation(), new CustomItem(unKeyed, stackSize));
+                            b.getWorld().dropItemNaturally(b.getLocation(), new CustomItem(unKeyed, stackSize));
 
-                        stored = stored - stackSize;
-                    }
+                            toRemove = toRemove - stackSize;
+                        }
 
-                    // Drop remaining, if there is any
-                    if (stored > 0) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), new CustomItem(unKeyed, stored));
+                        if (toRemove > 0) {
+                            b.getWorld().dropItemNaturally(b.getLocation(), new CustomItem(unKeyed, stored));
+                        }
+
+                        BlockStorage.addBlockInfo(b, "stored", String.valueOf(stored - OVERFLOW_AMOUNT));
+
+                        return false;
+                    } else {
+
+                        // Everything greater than 1 stack
+                        while (stored >= stackSize) {
+
+                            b.getWorld().dropItemNaturally(b.getLocation(), new CustomItem(unKeyed, stackSize));
+
+                            stored = stored - stackSize;
+                        }
+
+                        // Drop remaining, if there is any
+                        if (stored > 0) {
+                            b.getWorld().dropItemNaturally(b.getLocation(), new CustomItem(unKeyed, stored));
+                        }
+
+                        // In case they use an explosive pick
+                        BlockStorage.addBlockInfo(b, "stored", "0");
+                        updateMenu(b, inv);
+                        SimpleHologram.remove(b);
+                        return true;
                     }
                 }
 
             }
-            // In case they use an explosive pick
-            BlockStorage.addBlockInfo(b, "stored", "0");
-            updateMenu(b, inv);
-            SimpleHologram.remove(b);
+
             return true;
         });
 

@@ -1,7 +1,7 @@
 package io.ncbpfluffybear.fluffymachines;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.ncbpfluffybear.fluffymachines.items.Barrel;
+import io.ncbpfluffybear.fluffymachines.items.barrels.Barrel;
 import io.ncbpfluffybear.fluffymachines.items.FireproofRune;
 import io.ncbpfluffybear.fluffymachines.items.tools.Dolly;
 import io.ncbpfluffybear.fluffymachines.items.tools.PortableCharger;
