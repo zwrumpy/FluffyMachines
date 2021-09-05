@@ -6,6 +6,7 @@ import me.mrCookieSlime.Slimefun.cscorelib2.chat.ChatColors;
 import me.mrCookieSlime.Slimefun.cscorelib2.protection.ProtectableAction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -122,6 +123,10 @@ public final class Utils {
         return (p.hasPermission("slimefun.inventory.bypass")
             || SlimefunPlugin.getProtectionManager().hasPermission(
             p, b.getLocation(), ProtectableAction.INTERACT_BLOCK));
+    }
+
+    public static boolean hasPermission(Player p, Location l, ProtectableAction action) {
+        return SlimefunPlugin.getProtectionManager().hasPermission(p, l, action);
     }
 
     // Don't use Slimefun's runsync

@@ -386,7 +386,7 @@ public class FluffyItems {
     );
     public static final SlimefunItemStack DOLLY = new SlimefunItemStack("DOLLY",
         Material.MINECART,
-        "&bDolly",
+        "&bDolly &7(&eEmpty&7)",
         "",
         "&7Right click a chest to pick it up",
         "",
