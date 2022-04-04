@@ -1,4 +1,4 @@
-# FluffyMachines
+# FluffyMachines CH+
 
 These are some thrown together machines made by me for fun :)
 I pretty much add whatever comes to mind, is suggested by me, or other addons don't want to add.
