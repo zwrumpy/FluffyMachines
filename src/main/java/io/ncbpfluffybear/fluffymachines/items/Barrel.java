@@ -451,7 +451,7 @@ public class Barrel extends NonHopperableBlock implements DoubleHologramOwner {
         }
 
         if (showHologram.getValue() && (hasHolo == null || hasHolo.equals("true"))) {
-            updateHologram(b, itemName, " &9x" + stored + " &7(" + storedPercent + "&7%)");
+            updateHologram(b, itemName, " &8x&7" + stored);
         }
 
         if (stored == 0) {
@@ -602,7 +602,7 @@ public class Barrel extends NonHopperableBlock implements DoubleHologramOwner {
     @Nonnull
     @Override
     public Vector getHologramOffset(@Nonnull Block b) {
-        return new Vector(0.5, 0.9, 0.5);
+        return new Vector(0.5, 0.5, 0.5);
     }
 
     public enum BarrelType {
