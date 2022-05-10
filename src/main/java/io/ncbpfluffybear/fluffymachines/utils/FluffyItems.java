@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
 import io.ncbpfluffybear.fluffymachines.items.FireproofRune;
+import io.ncbpfluffybear.fluffymachines.items.MiniBarrel;
 import io.ncbpfluffybear.fluffymachines.items.tools.FluffyWrench;
 import io.ncbpfluffybear.fluffymachines.items.tools.PortableCharger;
 import io.ncbpfluffybear.fluffymachines.machines.AdvancedAutoDisenchanter;
@@ -18,6 +19,7 @@ import io.ncbpfluffybear.fluffymachines.machines.BackpackLoader;
 import io.ncbpfluffybear.fluffymachines.machines.BackpackUnloader;
 import io.ncbpfluffybear.fluffymachines.machines.ElectricDustFabricator;
 import io.ncbpfluffybear.fluffymachines.machines.ElectricDustRecycler;
+import io.ncbpfluffybear.fluffymachines.machines.SmartFactory;
 import io.ncbpfluffybear.fluffymachines.machines.WaterSprinkler;
 import io.ncbpfluffybear.fluffymachines.multiblocks.CrankGenerator;
 import io.ncbpfluffybear.fluffymachines.objects.AutoCrafter;
@@ -32,6 +34,17 @@ public class FluffyItems {
 
     private FluffyItems() {
     }
+
+    // Barrels
+    public static final SlimefunItemStack MINI_FLUFFY_BARREL = new SlimefunItemStack("MINI_FLUFFY_BARREL",
+            Material.COMPOSTER,
+            "&eMini Fluffy Barrel",
+            "",
+            "&7Stores a large amount of an item",
+            "&7Has a changeable capacity",
+            "",
+            "&bMax Capacity: &e" + MiniBarrel.getDisplayCapacity() + " Items"
+    );
 
     // Portable Chargers
     public static final SlimefunItemStack SMALL_PORTABLE_CHARGER = new SlimefunItemStack("SMALL_PORTABLE_CHARGER",
@@ -246,6 +259,15 @@ public class FluffyItems {
             "&7Multiblock component of the Foundry",
             "&cMust be used in the Foundry"
     );
+    public static final SlimefunItemStack AUTO_ENHANCED_CRAFTING_TABLE = new SlimefunItemStack("AUTO_ENHANCED_CRAFTING_TABLE",
+            Material.CRAFTING_TABLE,
+            "&eAuto Enhanced Crafting Table",
+            "",
+            "&7Automatically crafts &eEnhanced Crafting Table &7recipes",
+            "",
+            LoreBuilderDynamic.powerBuffer(AutoCrafter.CAPACITY),
+            LoreBuilderDynamic.powerPerTick(AutoCrafter.ENERGY_CONSUMPTION)
+    );
     public static final SlimefunItemStack AUTO_MAGIC_WORKBENCH = new SlimefunItemStack("AUTO_MAGIC_WORKBENCH",
             Material.BOOKSHELF,
             "&6Auto Magic Workbench",
@@ -428,6 +450,19 @@ public class FluffyItems {
             "&7and barrel the dispenser is facing",
             "",
             Utils.multiBlockWarning()
+    );
+
+    public static final SlimefunItemStack SMART_FACTORY = new SlimefunItemStack("SMART_FACTORY",
+            Material.SMOKER,
+            "&cSmart Factory",
+            "",
+            "&7An all-in-one machine that crafts",
+            "&7resources from raw materials",
+            "",
+            LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE),
+            LoreBuilder.speed(1),
+            LoreBuilderDynamic.powerBuffer(SmartFactory.getEnergyCapacity()),
+            LoreBuilderDynamic.powerPerTick(SmartFactory.getEnergyConsumption())
     );
 
 

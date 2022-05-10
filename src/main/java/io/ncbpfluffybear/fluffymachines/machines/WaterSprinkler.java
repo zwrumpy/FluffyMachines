@@ -31,7 +31,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class WaterSprinkler extends AbstractGrowthAccelerator {
 
     public final ItemSetting<Double> successChance = new ItemSetting<>(this, "success-chance", 0.5);
-    public static final int ENERGY_CONSUMPTION = 2;
+    public static final int ENERGY_CONSUMPTION = 16;
     public static final int CAPACITY = 128;
     private static final int RADIUS = 2;
     private static final int PROGRESS_SLOT = 4;
@@ -85,11 +85,7 @@ public class WaterSprinkler extends AbstractGrowthAccelerator {
     @Override
     protected void tick(@Nonnull Block b) {
         final BlockMenu inv = BlockStorage.getInventory(b);
-        boolean open = false;
-
-        if (inv.hasViewer()) {
-            open = true;
-        }
+        boolean open = inv.hasViewer();
 
         if (b.getRelative(BlockFace.DOWN).getType() == Material.WATER) {
             if (open) {

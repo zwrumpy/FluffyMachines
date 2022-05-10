@@ -13,6 +13,7 @@ import io.ncbpfluffybear.fluffymachines.items.EnderChestExtractionNode;
 import io.ncbpfluffybear.fluffymachines.items.EnderChestInsertionNode;
 import io.ncbpfluffybear.fluffymachines.items.FireproofRune;
 import io.ncbpfluffybear.fluffymachines.items.HelicopterHat;
+import io.ncbpfluffybear.fluffymachines.items.MiniBarrel;
 import io.ncbpfluffybear.fluffymachines.items.tools.ACBUpgradeCard;
 import io.ncbpfluffybear.fluffymachines.items.tools.CargoManipulator;
 import io.ncbpfluffybear.fluffymachines.items.tools.Dolly;
@@ -31,12 +32,14 @@ import io.ncbpfluffybear.fluffymachines.machines.AlternateElevatorPlate;
 import io.ncbpfluffybear.fluffymachines.machines.AutoAncientAltar;
 import io.ncbpfluffybear.fluffymachines.machines.AutoArmorForge;
 import io.ncbpfluffybear.fluffymachines.machines.AutoCraftingTable;
+import io.ncbpfluffybear.fluffymachines.machines.AutoEnhancedCraftingTable;
 import io.ncbpfluffybear.fluffymachines.machines.AutoMagicWorkbench;
 import io.ncbpfluffybear.fluffymachines.machines.AutoTableSaw;
 import io.ncbpfluffybear.fluffymachines.machines.BackpackLoader;
 import io.ncbpfluffybear.fluffymachines.machines.BackpackUnloader;
 import io.ncbpfluffybear.fluffymachines.machines.ElectricDustFabricator;
 import io.ncbpfluffybear.fluffymachines.machines.ElectricDustRecycler;
+import io.ncbpfluffybear.fluffymachines.machines.SmartFactory;
 import io.ncbpfluffybear.fluffymachines.machines.WarpPad;
 import io.ncbpfluffybear.fluffymachines.machines.WaterSprinkler;
 import io.ncbpfluffybear.fluffymachines.multiblocks.CrankGenerator;
@@ -112,6 +115,12 @@ public final class FluffyItemSetup {
 
     public static void setupBarrels(@Nonnull FluffyMachines plugin) {
 
+        new MiniBarrel(fluffybarrels, FluffyItems.MINI_FLUFFY_BARREL, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
+                new ItemStack(Material.OAK_SLAB), new ItemStack(Material.BARREL), new ItemStack(Material.OAK_SLAB),
+                new ItemStack(Material.OAK_SLAB), new ItemStack(Material.BARREL), new ItemStack(Material.OAK_SLAB),
+                SlimefunItems.STEEL_PLATE, SlimefunItems.STEEL_PLATE, SlimefunItems.STEEL_PLATE
+        }).register(plugin);
+
         ItemStack previousBarrel = new ItemStack(Material.BARREL);
 
         for (Barrel.BarrelType barrelType : Barrel.BarrelType.values()) {
@@ -122,7 +131,7 @@ public final class FluffyItemSetup {
                     "",
                     "&7Stores a large amount of an item",
                     "",
-                    "&bCapacity: &e" + Barrel.getBarrelCapacity(barrelType) + " Items"
+                    "&bCapacity: &e" + Barrel.getDisplayCapacity(barrelType) + " Items"
             );
 
             new Barrel(fluffybarrels, barrelStack, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
@@ -262,9 +271,9 @@ public final class FluffyItemSetup {
 
         new AutoCraftingTable(machines, FluffyItems.AUTO_CRAFTING_TABLE,
                 RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
-                SlimefunItems.REINFORCED_PLATE, advancedCircuitBoard, SlimefunItems.REINFORCED_PLATE,
+                new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.CRAFTING_TABLE),
                 SlimefunItems.CARGO_MOTOR, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.CARGO_MOTOR,
-                SlimefunItems.REINFORCED_PLATE, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_PLATE
+                new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.CRAFTING_TABLE)
         }).register(plugin);
 
         new AutoAncientAltar(machines, FluffyItems.AUTO_ANCIENT_ALTAR,
@@ -272,6 +281,13 @@ public final class FluffyItemSetup {
                 SlimefunItems.ANCIENT_PEDESTAL, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.ANCIENT_PEDESTAL,
                 SlimefunItems.ANCIENT_PEDESTAL, SlimefunItems.ANCIENT_ALTAR, SlimefunItems.ANCIENT_PEDESTAL,
                 SlimefunItems.ANCIENT_PEDESTAL, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ANCIENT_PEDESTAL
+        }).register(plugin);
+
+        new AutoEnhancedCraftingTable(machines, FluffyItems.AUTO_ENHANCED_CRAFTING_TABLE,
+                RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
+                new ItemStack(Material.CRAFTING_TABLE), advancedCircuitBoard, new ItemStack(Material.CRAFTING_TABLE),
+                SlimefunItems.CARGO_MOTOR, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.CARGO_MOTOR,
+                new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.CRAFTING_TABLE)
         }).register(plugin);
 
         new AutoTableSaw(machines, FluffyItems.AUTO_TABLE_SAW,
@@ -360,7 +376,7 @@ public final class FluffyItemSetup {
                 RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
                 SlimefunItems.ENDER_LUMP_2, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.ENDER_LUMP_2,
                 new ItemStack(Material.HOPPER), new ItemStack(Material.ENDER_PEARL), new ItemStack(Material.DISPENSER),
-                SlimefunItems.ENDER_LUMP_2, advancedCircuitBoard, SlimefunItems.ENDER_LUMP_2
+                SlimefunItems.ENDER_LUMP_2, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.ENDER_LUMP_2
         }).register(plugin);
 
         new Dolly(misc, FluffyItems.DOLLY, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
@@ -435,6 +451,13 @@ public final class FluffyItemSetup {
                 SlimefunItems.CARGO_MOTOR, new ItemStack(Material.ENDER_EYE), SlimefunItems.ELECTRIC_MOTOR,
                 new ItemStack(Material.ENDER_EYE), new ItemStack(Material.COMPASS), new ItemStack(Material.ENDER_EYE),
                 SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.ENDER_EYE), SlimefunItems.CARGO_MOTOR
+        }).register(plugin);
+
+        new SmartFactory(machines, FluffyItems.SMART_FACTORY,
+                RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
+                SlimefunItems.CARGO_MOTOR, SlimefunItems.ELECTRIC_SMELTERY_2, SlimefunItems.CARGO_MOTOR,
+                SlimefunItems.ENHANCED_AUTO_CRAFTER, SlimefunItems.CARBON_PRESS_3, SlimefunItems.VANILLA_AUTO_CRAFTER,
+                SlimefunItems.CRAFTING_MOTOR, SlimefunItems.ELECTRIC_INGOT_FACTORY_3, SlimefunItems.CRAFTING_MOTOR
         }).register(plugin);
     }
 
