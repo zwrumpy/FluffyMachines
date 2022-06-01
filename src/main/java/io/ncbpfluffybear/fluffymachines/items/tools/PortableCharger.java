@@ -103,10 +103,9 @@ public class PortableCharger extends SimpleSlimefunItem<ItemUseHandler> implemen
                     }
 
                     if (sfItem instanceof Rechargeable) {
-
+                        if (chargerItem == null || chargerItem.getType() == Material.AIR) return;
                         Rechargeable device = (Rechargeable) sfItem;
-                        float neededCharge = device.getMaxItemCharge(deviceItem)
-                            - device.getItemCharge(deviceItem);
+                        float neededCharge = device.getMaxItemCharge(deviceItem) - device.getItemCharge(deviceItem);
                         float availableCharge = charger.getItemCharge(chargerItem);
 
                         // Three different scenarios
