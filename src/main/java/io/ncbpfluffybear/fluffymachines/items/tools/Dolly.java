@@ -10,10 +10,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.ncbpfluffybear.fluffymachines.utils.Utils;
-import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicBoolean;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -26,6 +22,14 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Dolly extends SimpleSlimefunItem<ItemUseHandler> {
 
@@ -33,8 +37,12 @@ public class Dolly extends SimpleSlimefunItem<ItemUseHandler> {
             Material.DIRT, "&4&lDolly empty", "&cHow did you get in here?"
     );
 
+    private static final int DELAY = 500; // 500ms
+    private final Map<Player, Long> timeouts;
+
     public Dolly(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+        this.timeouts = new HashMap<>();
     }
 
     @Nonnull
@@ -44,6 +52,14 @@ public class Dolly extends SimpleSlimefunItem<ItemUseHandler> {
             e.cancel();
 
             Player p = e.getPlayer();
+
+            if (timeouts.containsKey(p) && timeouts.get(p) + DELAY > System.currentTimeMillis()) {
+                Utils.send(p, "&cPlease wait before using the dolly again!");
+                return;
+            }
+
+            timeouts.put(p, System.currentTimeMillis());
+
             ItemStack dolly = e.getItem();
 
             if (!e.getClickedBlock().isPresent()) {
@@ -167,32 +183,36 @@ public class Dolly extends SimpleSlimefunItem<ItemUseHandler> {
                 backpack.getInventory().setItem(27, LOCK_ITEM); // Mark as single chest
             }
 
-            ItemStack[] bpContents = backpack.getInventory().getContents();
+            final ItemStack[][] bpContents = {backpack.getInventory().getContents()};
 
-            if (isLockItem(bpContents[0])) {
+            if (isLockItem(bpContents[0][0])) {
                 Utils.send(p, "&cYou must pick up a chest first!");
                 return;
             }
 
-            boolean singleChest = isLockItem(bpContents[27]);
+            boolean singleChest = isLockItem(bpContents[0][27]);
             if (!canChestFit(chestBlock, p, singleChest)) {
                 Utils.send(p, "&cYou can't fit your chest there!");
                 return;
             }
 
-            createChest(chestBlock, p, singleChest);
+            Utils.runSync(new BukkitRunnable() {
+                @Override
+                public void run() {
+                    createChest(chestBlock, p, singleChest);
+                    backpack.getInventory().clear();
+                    backpack.getInventory().setItem(0, LOCK_ITEM);
 
-            backpack.getInventory().clear();
-            backpack.getInventory().setItem(0, LOCK_ITEM);
+                    // Shrink contents size if single chest
+                    if (singleChest) {
+                        bpContents[0] = Arrays.copyOf(bpContents[0], 27);
+                    }
 
-            // Shrink contents size if single chest
-            if (singleChest) {
-                bpContents = Arrays.copyOf(bpContents, 27);
-            }
-
-            ((InventoryHolder) chestBlock.getState()).getInventory().setStorageContents(bpContents);
-            dolly.setType(Material.MINECART);
-            Utils.send(p, "&aChest has been placed");
+                    ((InventoryHolder) chestBlock.getState()).getInventory().setStorageContents(bpContents[0]);
+                    dolly.setType(Material.MINECART);
+                    Utils.send(p, "&aChest has been placed");
+                }
+            });
         });
     }
 
@@ -269,6 +289,5 @@ public class Dolly extends SimpleSlimefunItem<ItemUseHandler> {
                 || lockItem.getItemMeta().hasCustomModelData() // Remnants of when I didn't know what PDC was
                 && lockItem.getItemMeta().getCustomModelData() == 6969); // Leave in to maintain compatibility
     }
-
 
 }
