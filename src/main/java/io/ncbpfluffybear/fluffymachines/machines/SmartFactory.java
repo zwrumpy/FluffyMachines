@@ -186,8 +186,16 @@ public class SmartFactory extends SlimefunItem implements EnergyNetComponent, Re
             }
         });
     }
-
+    int progressTicks = 0;
+    int progressTime = 12;
     protected void tick(Block b) {
+        if (progressTicks >= progressTime) {
+            update(b);
+            progressTicks = 0;
+        } else progressTicks++;
+    }
+
+    void update(Block b){
 
         // Check if power is sufficient
         if (getCharge(b.getLocation()) < getEnergyConsumption()) {

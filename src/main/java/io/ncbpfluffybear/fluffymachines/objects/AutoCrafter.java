@@ -49,6 +49,9 @@ public class AutoCrafter extends SlimefunItem implements EnergyNetComponent {
     private final Material material;
     private final MultiBlockMachine mblock;
 
+    int progressTicks = 0;
+    int progressTime = 50;
+
     public AutoCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String displayName, Material material, String machineName, RecipeType machineRecipes) {
         super(category, item, recipeType, recipe);
 
@@ -244,7 +247,10 @@ public class AutoCrafter extends SlimefunItem implements EnergyNetComponent {
             return;
         }
 
-        craftIfValid(block);
+        if (progressTicks >= progressTime) {
+            craftIfValid(block);
+            progressTicks = 0;
+        } else progressTicks++;
     }
 
     private void craftIfValid(Block block) {
@@ -264,9 +270,7 @@ public class AutoCrafter extends SlimefunItem implements EnergyNetComponent {
         for (ItemStack[] input : RecipeType.getRecipeInputList(mblock)) {
             if (isCraftable(menu, input)) {
                 ItemStack output = RecipeType.getRecipeOutputList(mblock, input).clone();
-                if (!menu.fits(output, getOutputSlots())) {
-                    return;
-                }
+                if (!menu.fits(output, getOutputSlots())) return;
                 craft(output, menu);
                 removeCharge(block.getLocation(), getEnergyConsumption());
                 return;
@@ -292,12 +296,8 @@ public class AutoCrafter extends SlimefunItem implements EnergyNetComponent {
     private void craft(ItemStack output, BlockMenu inv) {
         for (int j = 0; j < 9; j++) {
             ItemStack item = inv.getItemInSlot(getInputSlots()[j]);
-
-            if (item != null && item.getType() != Material.AIR) {
-                inv.consumeItem(getInputSlots()[j]);
-            }
+            if (item != null && item.getType() != Material.AIR) inv.consumeItem(getInputSlots()[j]);
         }
-
         inv.pushItem(output, outputSlots);
     }
 
