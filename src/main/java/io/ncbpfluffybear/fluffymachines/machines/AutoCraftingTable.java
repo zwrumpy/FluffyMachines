@@ -264,7 +264,16 @@ public class AutoCraftingTable extends SlimefunItem implements EnergyNetComponen
         });
     }
 
-    protected void tick(Block block) {
+    private int progressTick = 0;
+    private int progressInterval = 20;
+    public void tick(Block b) {
+        if (progressTick >= progressInterval) {
+            update(b);
+            progressTick = 0;
+        } else progressTick++;
+    }
+
+    protected void update(Block block) {
 
         if (BlockStorage.getLocationInfo(block.getLocation(), "enabled").equals("false")) {
             return;
@@ -279,6 +288,7 @@ public class AutoCraftingTable extends SlimefunItem implements EnergyNetComponen
             return;
         }
 
+
         getResult(block);
     }
 
@@ -287,7 +297,7 @@ public class AutoCraftingTable extends SlimefunItem implements EnergyNetComponen
         ItemStack invItem = menu.getItemInSlot(KEY_SLOT);
 
         // Make sure we have a key item
-        if (invItem == null || invItem.getType() == Material.BARRIER) {
+        if (invItem == null || invItem.getType() == Material.BARRIER || SlimefunItem.getByItem(invItem) == null) {
             if (menu.hasViewer()) {
                 menu.replaceExistingItem(statusSlot, new CustomItemStack(new ItemStack(Material.RED_STAINED_GLASS_PANE),
                         "&c&lKey Item Missing"));
