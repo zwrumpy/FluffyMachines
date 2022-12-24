@@ -72,7 +72,7 @@ public class Barrel extends NonHopperableBlock implements DoubleHologramOwner {
             "&7Turn on to delete unstorable items"
     );
 
-    private final ItemSetting<Boolean> showHologram = new ItemSetting<>(this, "show-hologram", true);
+    private final ItemSetting<Boolean> showHologram = new ItemSetting<>(this, "show-hologram", false);
     private final ItemSetting<Boolean> breakOnlyWhenEmpty = new ItemSetting<>(this, "break-only-when-empty", false);
 
     protected final ItemSetting<Integer> barrelCapacity;
@@ -242,7 +242,7 @@ public class Barrel extends NonHopperableBlock implements DoubleHologramOwner {
             setStored(b, 0);
 
             if (showHologram.getValue()) {
-                updateHologram(b, null, "&cEmpty");
+                //updateHologram(b, null, "&cEmpty");
             }
 
             // Change hologram settings
@@ -466,16 +466,16 @@ public class Barrel extends NonHopperableBlock implements DoubleHologramOwner {
             itemName = WordUtils.capitalizeFully(inv.getItemInSlot(DISPLAY_SLOT).getType().name().replace("_", " "));
         }
 
-        if (showHologram.getValue() && (hasHolo == null || hasHolo.equals("true"))) {
-            updateHologram(b, itemName, " &8x&7" + stored);
-        }
+//        if (showHologram.getValue() && (hasHolo == null || hasHolo.equals("true"))) {
+//            updateHologram(b, itemName, " &8x&7" + stored);
+//        }
 
-        if (stored == 0) {
-            inv.replaceExistingItem(DISPLAY_SLOT, new CustomItemStack(Material.BARRIER, "&cEmpty"));
-            if (showHologram.getValue() && (hasHolo == null || hasHolo.equals("true"))) {
-                updateHologram(b, null, "&cEmpty");
-            }
-        }
+//        if (stored == 0) {
+//            inv.replaceExistingItem(DISPLAY_SLOT, new CustomItemStack(Material.BARRIER, "&cEmpty"));
+//            if (showHologram.getValue() && (hasHolo == null || hasHolo.equals("true"))) {
+//                updateHologram(b, null, "&cEmpty");
+//            }
+//        }
     }
 
     /**
